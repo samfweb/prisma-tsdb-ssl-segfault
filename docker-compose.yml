@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  web:
+    container_name: tsdb-prisma-next
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - ./.env
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 3000:3000
+      - 35049:35049
+
+    command: npm run dev
+    tty: true
+  tsdb:
+    image: timescale/timescaledb-ha:pg14-latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=password
